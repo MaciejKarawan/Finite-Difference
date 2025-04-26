@@ -2,9 +2,6 @@ import numpy as np
 import sys
 import os
 from interpolation import interpolate_option_price
-
-sciezka = os.path.abspath(os.path.join(__file__, '..', '..', '..', 'projekt1', 'src'))
-sys.path.append(sciezka)
 from pricing import *
 
 np.set_printoptions(
@@ -17,11 +14,11 @@ np.set_printoptions(
 
 ### Args
 vol = 0.20
-r = 0.05
+r = np.log(1+0.05)
 option_type = 'call'
-strike = 1700
+strike = 2500
 expiration = 1
-NAS = 300                          # Number Asset Steps
+NAS = 2000                          # Number Asset Steps
 top_barrier = 3                     # 3 x strike
 
 
@@ -41,7 +38,7 @@ print(f'Krok dS: {dS}')
 print(f'Krok dt: {dt}')
 print(f'NAS: {NAS}')
 print(f'NTS: {NTS}')
-print(f'Asset_vec: {S}')
+#print(f'Asset_vec: {S}')
 
 current_time = expiration - 0 * dt
 #Grid[:, -1] = np.where(S - strike > 0, S - strike, 0)          # Wersja z pamięcią
@@ -70,11 +67,10 @@ for t in range(1, NTS):
     V_down = np.roll(Grid, -1)
     V_down[-1] = 0
     V_up = np.roll(Grid, 1)
-    V_up[0] = NAS * dS - strike * np.exp(-r * (expiration - current_time))
+    V_up[0] = S[0] - strike * np.exp(-r * (expiration - current_time))
     a_k = 0.5 * vol ** 2 * S ** 2
     b_k = r * S
-    c_k = r
-
+    c_k = -r
 
     A_k = v1 * a_k - 0.5 * v2 * b_k
     B_k = -2 * v1 * a_k + dt * c_k
@@ -92,6 +88,11 @@ numerical_price = interpolate_option_price(S, Grid, 2000)
 print(f'Teoretyczna wartość: {theoretical_price} \n'
       f'Finite-Difference: {numerical_price} \n'
       f'Różnica: {np.abs(numerical_price - theoretical_price)}')
+
+print(f"Pozycja 2000 w siatce S najbliżej: {S[np.abs(S - 2000).argmin()]} -> cena opcji: {Grid[np.abs(S - 2000).argmin()]}")
+
+
+print(1/(1+r) * numerical_price)
 
 
 
