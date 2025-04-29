@@ -1,6 +1,5 @@
 import numpy as np
-import sys
-import os
+
 from interpolation import interpolate_option_price
 from pricing import *
 
