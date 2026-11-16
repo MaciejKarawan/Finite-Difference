@@ -1,3 +1,4 @@
+from finite_difference.paths import generated_path
 """
 Generates static heatmap plots for Finite Difference method analysis.
 Includes:
@@ -11,9 +12,9 @@ import sys
 
 # Ensure modules are in the same directory or Python path
 try:
-    import FD
-    import FD_KO
-    from IF1.FD.heatmaps_plot_modified import *
+    from finite_difference import fd as FD
+    from finite_difference import fd_ko as FD_KO
+    from scripts.plots.heatmaps_plot_modified import *
     # pricing and interpolation are used internally by FD and FD_KO
 except ImportError as e:
     print(f"Error importing user modules: {e}")
@@ -166,7 +167,7 @@ for option_code, (option_name, barrier_val) in option_definitions.items():
     fname = f"heatmap_1x3_fixed_vol_{option_code}_gamma_vols_{fixed_vols_for_1x3_heatmap[0]}_{fixed_vols_for_1x3_heatmap[1]}.png"
     filepath = fname
     try:
-        plt.savefig(filepath, bbox_inches='tight', dpi=300, format='png')
+        plt.savefig(generated_path(filepath), bbox_inches='tight', dpi=300, format='png')
         plt.close(fig)
         print(f"  1x3 Heatmap saved to {filepath}")
         plot_files.append(filepath)

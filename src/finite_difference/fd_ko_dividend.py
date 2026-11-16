@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from interpolation import interpolate_option_price
-from pricing import *
+from finite_difference.interpolation import interpolate_option_price
+from finite_difference.pricing import *
 import time
 import numpy as np # Ensure numpy is imported
 

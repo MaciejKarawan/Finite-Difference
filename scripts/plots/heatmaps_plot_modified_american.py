@@ -13,9 +13,9 @@ from matplotlib.colors import ListedColormap
 
 # Ensure modules are in the same directory or Python path
 try:
-    import FD
-    import FD_KO
-    from IF1.FD.heatmaps_plot_modified import *
+    from finite_difference import fd as FD
+    from finite_difference import fd_ko as FD_KO
+    from scripts.plots.heatmaps_plot_modified import *
 except ImportError as e:
     print(f"Error importing user modules: {e}")
     print("Please ensure FD.py, FD_KO.py, interpolation.py, and pricing.py are in the same directory as this script or in your Python path.")

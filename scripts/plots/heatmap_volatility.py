@@ -1,3 +1,4 @@
+from finite_difference.paths import generated_path
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -22,12 +23,9 @@ import multiprocessing as mp
 from functools import partial
 
 # --- Configuration for Importing FDB_with_memory ---
-FDB_MODULE_PATH = "/home/ubuntu/upload"
-if FDB_MODULE_PATH not in sys.path:
-    sys.path.append(FDB_MODULE_PATH)
 
 try:
-    from FD_KO_dividend import FDB_with_memory
+    from finite_difference.fd_ko_dividend import FDB_with_memory
     if 'option_barrier_price' not in sys.modules.get('FD_KO_dividend', {}).__dict__:
         def option_barrier_price(*args, **kwargs):
             return None
@@ -289,7 +287,7 @@ def create_interactive_heatmap(cfg, all_grids_data, vol_mid_vals, vol_len_vals):
     )
     
     try:
-        fig.write_html(cfg["output_html_file"])
+        fig.write_html(generated_path(cfg["output_html_file"]))
         print(f"Interactive VOLATILITY heatmap saved to {cfg['output_html_file']}")
     except Exception as e:
         print(f"Error saving VOLATILITY heatmap: {e}")

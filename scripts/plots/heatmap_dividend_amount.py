@@ -1,3 +1,4 @@
+from finite_difference.paths import generated_path
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -21,12 +22,9 @@ import multiprocessing as mp
 from functools import partial
 
 # --- Configuration for Importing FDB_with_memory ---
-FDB_MODULE_PATH = "/home/ubuntu/upload"
-if FDB_MODULE_PATH not in sys.path:
-    sys.path.append(FDB_MODULE_PATH)
 
 try:
-    from FD_KO_dividend import FDB_with_memory
+    from finite_difference.fd_ko_dividend import FDB_with_memory
     # Add dummy functions if they are not present in the imported module to avoid errors
     # This is a workaround for environments where the module might be incomplete
     if not hasattr(sys.modules.get("FD_KO_dividend"), "option_barrier_price"):
@@ -209,7 +207,7 @@ def create_interactive_heatmap(cfg, all_grids_data, div_amt_vals):
     )
     
     try:
-        fig.write_html(cfg["output_html_file"])
+        fig.write_html(generated_path(cfg["output_html_file"]))
         print(f"Interactive DIVIDEND AMOUNT heatmap saved to {cfg['output_html_file']}")
     except Exception as e:
         print(f"Error saving DIVIDEND AMOUNT heatmap: {e}")
