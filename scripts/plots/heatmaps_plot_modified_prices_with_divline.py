@@ -1,3 +1,4 @@
+from finite_difference.paths import generated_path
 # Modified version of heatmaps_plot_modified.py (for prices)
 # Changes:
 # 1. Assumes options are always barrier options with dividends.
@@ -22,7 +23,7 @@ import sys
 # Ensure modules are in the same directory or Python path
 try:
     # Removed FD and FD_KO as we assume barrier with dividend
-    import FD_KO_dividend as fdm_dividend_module
+    from finite_difference import fd_ko_dividend as fdm_dividend_module
     from matplotlib.colors import ListedColormap # Keep for other scripts that might import *
     import seaborn as sns
     print("Successfully imported fdm_dividend_module (FD_KO_dividend_minimal.py)")
@@ -167,7 +168,7 @@ def plot_comparative_heatmap(grid1, S_vec1, time_vec1, title1,
             # Using the Gamma labels from user's gamma script for consistency if this func is used there
             cbar.ax.set_yticklabels([r"$Gamma < 0$", r"$Gamma geq 0$"])
     try:
-        plt.savefig(filename, bbox_inches='tight', dpi=300, format='png')
+        plt.savefig(generated_path(filename), bbox_inches='tight', dpi=300, format='png')
         plt.close(fig)
         print(f"Comparative heatmap saved to {filename}")
     except Exception as e:
@@ -252,7 +253,7 @@ if __name__ == '__main__':
         
         fname = f"heatmap_1x3_price_dividend_{option_code}_vols_{fixed_vols_for_1x3_heatmap[0]}_{fixed_vols_for_1x3_heatmap[1]}_{fixed_vols_for_1x3_heatmap[2]}_dividend_{DIVIDEND_VALUE_ASSUMED}_{DIVIDEND_TIME_FRACTION_ASSUMED}.png"
         try:
-            plt.savefig(fname, bbox_inches='tight', dpi=300, format='png'); plt.close(fig)
+            plt.savefig(generated_path(fname), bbox_inches='tight', dpi=300, format='png'); plt.close(fig)
             print(f"  1x3 Heatmap saved to {fname}"); plot_files.append(fname)
         except Exception as e: print(f"  Error saving 1x3 heatmap {fname}: {e}"); plt.close(fig)
 

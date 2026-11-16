@@ -1,3 +1,4 @@
+from finite_difference.paths import generated_path
 """
 Generates static heatmap plots for Finite Difference method analysis.
 Includes:
@@ -17,9 +18,9 @@ import sys
 
 # Ensure modules are in the same directory or Python path
 try:
-    import FD
-    import FD_KO
-    import FD_KO_dividend
+    from finite_difference import fd as FD
+    from finite_difference import fd_ko as FD_KO
+    from finite_difference import fd_ko_dividend as FD_KO_dividend
     from matplotlib.colors import ListedColormap
     import seaborn as sns
     # pricing and interpolation are used internally by FD and FD_KO
@@ -169,7 +170,7 @@ def plot_comparative_heatmap(grid1, S_vec1, time_vec1, title1,
     # --- Save Plot --- #
     filepath = filename # Save directly with the filename in the current directory
     try:
-        plt.savefig(filepath, bbox_inches='tight', dpi=300, format='png')
+        plt.savefig(generated_path(filepath), bbox_inches='tight', dpi=300, format='png')
         plt.close(fig)
         print(f"Comparative heatmap saved to {filepath}")
     except Exception as e:

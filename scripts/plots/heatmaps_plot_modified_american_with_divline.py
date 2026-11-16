@@ -1,3 +1,4 @@
+from finite_difference.paths import generated_path
 # Modified version of heatmaps_plot_modified_american.py
 # Changes:
 # 1. Assumes options are always barrier options with dividends.
@@ -25,7 +26,7 @@ import sys
 # Ensure modules are in the same directory or Python path
 try:
     # Use the FDM module that handles dividends for barrier options
-    import FD_KO_dividend as fdm_dividend_module
+    from finite_difference import fd_ko_dividend as fdm_dividend_module
     from matplotlib.colors import ListedColormap
     import seaborn as sns # Imported in the base, good to have here if used directly
 
@@ -33,7 +34,7 @@ try:
     # which now accept dividend line parameters. The user needs to ensure that the 
     # heatmaps_plot_modified.py (or whatever IF1.FD.heatmaps_plot_modified points to)
     # contains the updated plotting functions (like those in heatmaps_plot_modified_prices_with_divline.py)
-    from heatmaps_plot_modified_prices_with_divline import plot_single_heatmap, plot_comparative_heatmap, setup_plotting_style
+    from scripts.plots.heatmaps_plot_modified_prices_with_divline import plot_single_heatmap, plot_comparative_heatmap, setup_plotting_style
     
     print("Successfully imported fdm_dividend_module and plotting functions.")
 except ImportError as e:
@@ -136,7 +137,7 @@ if __name__ == '__main__':
         
         fname = f"heatmap_1x3_execution_divline_{option_code}_vols_{fixed_vols_for_1x3_heatmap[0]}_{fixed_vols_for_1x3_heatmap[1]}_{fixed_vols_for_1x3_heatmap[2]}_dividend_{DIVIDEND_VALUE_ASSUMED}_{DIVIDEND_TIME_FRACTION_ASSUMED}.png"
         try:
-            plt.savefig(fname, bbox_inches='tight', dpi=300, format='png'); plt.close(fig)
+            plt.savefig(generated_path(fname), bbox_inches='tight', dpi=300, format='png'); plt.close(fig)
             print(f"  1x3 Execution Heatmap saved to {fname}"); plot_files.append(fname)
         except Exception as e: print(f"  Error saving 1x3 Execution heatmap {fname}: {e}"); plt.close(fig)
 
